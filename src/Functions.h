@@ -13,7 +13,9 @@ public:
 			card foundationDiamonds[], card foundationClubs[],
 			card foundationSpades[]);
 	int findLastCard(int columnIndex,card tableauArea[][7]);
-
+	void openCardPile(string columnIndex,card tableauArea[][7]);
+	void addFoundation(card[],card);
+	void moveAnotherPile(string currentPosition,string cardSize,string targetPosition,card tableauArea[][7]);
 };
 
 

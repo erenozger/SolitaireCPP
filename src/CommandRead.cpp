@@ -33,12 +33,16 @@ void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7]
 		if(secondCommand == "to"){
 			functions.moveFoundation(fifthCommand,tableauArea,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades);
 		}else if(secondCommand == "pile"){
-
+			functions.moveAnotherPile(thirdCommand,fourthCommand,fifthCommand,tableauArea);
 		}else if(secondCommand == "waste"){
 
 		}
 	}else if(mainCommand == "open"){
+		if(secondCommand == "from"){
 
+		}else{
+			functions.openCardPile(secondCommand, tableauArea);
+		}
 
 	}
 	else

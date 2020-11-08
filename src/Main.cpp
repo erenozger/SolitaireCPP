@@ -155,25 +155,67 @@ void printStocksInGame(card stockMatrix[][3], int index, int maxindex) {
 }
 void printFoundations(card foundationHearts[], card foundationDiamonds[],
 		card foundationClubs[], card foundationSpades[]) {
-	if (foundationHearts[12].cardname == "0")
+	if (foundationHearts[0].cardname == "0")
 		cout << "___" << " ";
 	else
-		cout << foundationHearts[12].cardname << " ";
-	if (foundationDiamonds[12].cardname == "0")
-		cout << "___" << " ";
-	else
-		cout << foundationDiamonds[12].cardname << " ";
-	if (foundationClubs[12].cardname == "0")
-		cout << "___" << " ";
-	else
-		cout << foundationClubs[12].cardname << " ";
-	if (foundationSpades[12].cardname == "0")
-		cout << "___" << " ";
-	else
-		cout << foundationSpades[12].cardname << " ";
 
+		for (int temp = 1; temp < 13; temp++) {
+			if (temp == 12) {
+				if (foundationHearts[temp].cardname == "0")
+					cout << foundationHearts[temp - 1].cardname << " ";
+				else
+					cout << foundationHearts[temp].cardname << " ";
+			} else if (foundationHearts[temp].cardname == "0") {
+				cout << foundationHearts[temp - 1].cardname << " ";
+				break;
+			}
+		}
+	if (foundationDiamonds[0].cardname == "0")
+		cout << "___" << " ";
+	else {
+		for (int temp1 = 1; temp1 < 13; temp1++) {
+			if (temp1 == 12) {
+				if (foundationDiamonds[temp1].cardname == "0")
+					cout << foundationDiamonds[temp1 - 1].cardname << " ";
+				else
+					cout << foundationDiamonds[temp1].cardname << " ";
+			} else if (foundationDiamonds[temp1].cardname == "0") {
+				cout << foundationDiamonds[temp1 - 1].cardname << " ";
+				break;
+			}
+		}
+	}
+	if (foundationSpades[0].cardname == "0")
+		cout << "___" << " ";
+	else {
+		for (int temp3 = 1; temp3 < 13; temp3++) {
+			if (temp3 == 12) {
+				if (foundationSpades[temp3].cardname == "0")
+					cout << foundationSpades[temp3 - 1].cardname << " ";
+				else
+					cout << foundationSpades[temp3].cardname << " ";
+			} else if (foundationSpades[temp3].cardname == "0") {
+				cout << foundationSpades[temp3 - 1].cardname << " ";
+				break;
+			}
+		}
+	}
+	if (foundationClubs[0].cardname == "0")
+		cout << "___" << " ";
+	else {
+		for (int temp2 = 1; temp2 < 13; temp2++) {
+			if (temp2 == 12) {
+				if (foundationClubs[temp2].cardname == "0")
+					cout << foundationClubs[temp2 - 1].cardname << " ";
+				else
+					cout << foundationClubs[temp2].cardname << " ";
+			} else if (foundationClubs[temp2].cardname == "0") {
+				cout << foundationClubs[temp2 - 1].cardname << " ";
+				break;
+			}
+		}
+	}
 	cout << endl << endl;
-
 }
 void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		card stockArray[], card foundationHearts[], card foundationDiamonds[],
@@ -196,8 +238,9 @@ void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
 				foundationSpades);
 		printMatrix(tableauArea, 19, 7);
-		cout<<endl;
+		cout << endl;
 	}
+
 
 }
 int main() {
@@ -230,18 +273,20 @@ int main() {
 	card stockMatrix[8][3];
 	card emptyCard;
 	emptyCard.cardname = "0";
-	card foundationHearts[13] = { emptyCard, emptyCard, emptyCard, emptyCard,
-			emptyCard, emptyCard, emptyCard, emptyCard, emptyCard, emptyCard,
-			emptyCard, emptyCard, emptyCard };
-	card foundationDiamonds[13] = { emptyCard, emptyCard, emptyCard, emptyCard,
-			emptyCard, emptyCard, emptyCard, emptyCard, emptyCard, emptyCard,
-			emptyCard, emptyCard, emptyCard };
+
 	card foundationClubs[13] = { emptyCard, emptyCard, emptyCard, emptyCard,
 			emptyCard, emptyCard, emptyCard, emptyCard, emptyCard, emptyCard,
 			emptyCard, emptyCard, emptyCard };
 	card foundationSpades[13] = { emptyCard, emptyCard, emptyCard, emptyCard,
 			emptyCard, emptyCard, emptyCard, emptyCard, emptyCard, emptyCard,
 			emptyCard, emptyCard, emptyCard };
+	card foundationHearts[13] = { emptyCard, emptyCard, emptyCard, emptyCard,
+			emptyCard, emptyCard, emptyCard, emptyCard, emptyCard, emptyCard,
+			emptyCard, emptyCard, emptyCard };
+	card foundationDiamonds[13] = { emptyCard, emptyCard, emptyCard, emptyCard,
+			emptyCard, emptyCard, emptyCard, emptyCard, emptyCard, emptyCard,
+			emptyCard, emptyCard, emptyCard };
+
 	createUpperTriangularBoard(deckArray, tableauArea, stockArray);
 	createStock(stockArray, stockMatrix);
 	playSolitaire(tableauArea, stockMatrix, stockArray, foundationHearts,
