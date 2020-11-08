@@ -1,0 +1,5 @@
+move to foundation pile 6
+open 6
+move to foundation pile 2
+open 2
+move pile 0 0 5
