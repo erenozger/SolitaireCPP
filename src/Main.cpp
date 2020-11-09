@@ -17,13 +17,6 @@
 #define ONESUITSIZE 13
 using namespace std;
 
-/*class card {
- public:
- string cardname;
- char suitChar;
- int value;
- bool show;
- };*/
 void reverseDeck(card deck[], int begin, int end) {
 	if (end != 51) {
 		cout << "Invaled deck size!" << endl;
@@ -131,21 +124,28 @@ void printStockMatrix(card array[][3]) {
 		cout << endl;
 	}
 }
-void printStocksInGame(card stockMatrix[][3], int index, int maxindex) {
-	if (index == -1) {
+void printStocksInGame(card stockMatrix[][3], StockValues stockValuesList[]) {
+	StockValues oneStock = stockValuesList[0];
+	if (oneStock.currentStockIndex == -1) {
 		cout << "@@@" << " " << "___" << " " << "___" << " " << "___" << " ";
 
-	} else if (index == (maxindex - 1)) {
+	} else if (oneStock.currentStockIndex == (oneStock.maxIndex - 1)) {
 		cout << "___" << " ";
 		for (int i = 0; i < 3; i++) {
-			cout << stockMatrix[index][i].cardname << " ";
+			if(stockMatrix[oneStock.currentStockIndex][i].cardname =="null")
+				cout << "___"<< " ";
+			else
+				cout << stockMatrix[oneStock.currentStockIndex][i].cardname<< " ";
 
 		}
 
 	} else {
 		cout << "@@@" << " ";
 		for (int i = 0; i < 3; i++) {
-			cout << stockMatrix[index][i].cardname << " ";
+			if(stockMatrix[oneStock.currentStockIndex][i].cardname == "null")
+				cout << "___"<< " ";
+			else
+				cout << stockMatrix[oneStock.currentStockIndex][i].cardname<< " ";
 
 		}
 
@@ -219,10 +219,10 @@ void printFoundations(card foundationHearts[], card foundationDiamonds[],
 }
 void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		card stockArray[], card foundationHearts[], card foundationDiamonds[],
-		card foundationClubs[], card foundationSpades[]) {
-	int currentStockIndex = -1;
-	int maxIndex = 8;
-	printStocksInGame(stockMatrix, currentStockIndex, maxIndex);
+		card foundationClubs[], card foundationSpades[],
+		StockValues stockValuesList[]) {
+
+	printStocksInGame(stockMatrix, stockValuesList);
 	printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
 			foundationSpades);
 	printMatrix(tableauArea, 19, 7);
@@ -233,15 +233,13 @@ void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		CommandRead commandread;
 		commandread.calculateWholeCommand(command, tableauArea, stockMatrix,
 				stockArray, foundationHearts, foundationDiamonds,
-				foundationClubs, foundationSpades);
-		printStocksInGame(stockMatrix, currentStockIndex, maxIndex);
+				foundationClubs, foundationSpades, stockValuesList);
+		printStocksInGame(stockMatrix, stockValuesList);
 		printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
 				foundationSpades);
 		printMatrix(tableauArea, 19, 7);
 
-
 	}
-
 
 }
 int main() {
@@ -252,6 +250,10 @@ int main() {
 	while (getline(file, line)) {
 		deckSizeCount++;
 	}
+	StockValues stockValues;
+	stockValues.currentStockIndex = -1;
+	stockValues.maxIndex = 8;
+	StockValues stockValuesList[1] = { stockValues };
 
 	struct card deckArray[deckSizeCount];
 	string str;
@@ -291,7 +293,7 @@ int main() {
 	createUpperTriangularBoard(deckArray, tableauArea, stockArray);
 	createStock(stockArray, stockMatrix);
 	playSolitaire(tableauArea, stockMatrix, stockArray, foundationHearts,
-			foundationDiamonds, foundationClubs, foundationSpades);
+			foundationDiamonds, foundationClubs, foundationSpades, stockValuesList);
 
 	return 0;
 }

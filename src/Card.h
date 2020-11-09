@@ -10,6 +10,11 @@ public:
 	bool show;
 };
 
+class StockValues{
+public:
+	int currentStockIndex;
+	int maxIndex;
+};
 
 
 #endif /* CARD_H_ */

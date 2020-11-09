@@ -159,4 +159,160 @@ void Functions::moveAnotherPile(string currentPosition, string cardSize,
 	}
 
 }
+void Functions::openFromStock(StockValues stockValuesList[]) {
+	StockValues oneStock = stockValuesList[0];
 
+	int tempStockValue;
+	if (oneStock.currentStockIndex == ((oneStock.maxIndex) - 1)) {
+		oneStock.currentStockIndex = -1;
+		stockValuesList[0] = oneStock;
+
+	} else {
+
+		tempStockValue = oneStock.currentStockIndex;
+		tempStockValue = tempStockValue + 1;
+		oneStock.currentStockIndex = tempStockValue;
+		stockValuesList[0] = oneStock;
+	}
+
+}
+void Functions::moveWasteToPile(string targetColumn,
+		StockValues stockValuesList[], card stockMatrix[][3], card stockArray[],
+		card tableauArea[][7]) {
+	Functions functions;
+	int targetColumnP = std::stoi(targetColumn);
+	int lastcardTargetIndex = functions.findLastCard(targetColumnP,
+			tableauArea);
+	card destCard;
+	if (lastcardTargetIndex == -1) {
+		destCard.cardname = "-1";
+	} else {
+		destCard = tableauArea[lastcardTargetIndex][targetColumnP];
+	}
+
+	string temp;
+	int currentIndex = stockValuesList[0].currentStockIndex;
+
+	if (stockMatrix[currentIndex][2].cardname == "null") {
+		if (stockMatrix[currentIndex][1].cardname == "null") {
+			if (stockMatrix[currentIndex][0].cardname == "null")
+				cout << "\nInvalid move!" << endl;
+			else {
+				if (destCard.cardname == "-1") {
+					if (stockMatrix[currentIndex][0].value == 13){
+						tableauArea[0][targetColumnP] =stockMatrix[currentIndex][0];
+						tableauArea[0][targetColumnP].show = true;
+					}
+
+					else
+						cout << "Invalid Move!" << endl;
+				} else {
+					if (suitExpression(stockMatrix[currentIndex][0].suitChar,
+							destCard.suitChar) == true) {
+						stockMatrix[currentIndex][0].show = true;
+						tableauArea[lastcardTargetIndex+1][targetColumnP] =
+								stockMatrix[currentIndex][0];
+					} else
+						cout << "Invalid Move!" << endl;
+				}
+
+
+				temp = stockMatrix[currentIndex][0].cardname;
+				stockMatrix[currentIndex][0].cardname = "null";
+				deleteFromArray(stockArray, temp);
+			}
+		} else {
+			if (destCard.cardname == "-1") {
+				if (stockMatrix[currentIndex][1].value == 13){
+
+					tableauArea[0][targetColumnP] =stockMatrix[currentIndex][1];
+					tableauArea[0][targetColumnP].show = true;
+				}
+
+
+				else
+					cout << "Invalid Move!" << endl;
+			} else {
+				if (suitExpression(stockMatrix[currentIndex][1].suitChar,
+						destCard.suitChar) == true) {
+					stockMatrix[currentIndex][1].show = true;
+					tableauArea[lastcardTargetIndex+1][targetColumnP] =
+							stockMatrix[currentIndex][1];
+				} else
+					cout << "Invalid Move!" << endl;
+			}
+			temp = stockMatrix[currentIndex][1].cardname;
+			stockMatrix[currentIndex][1].cardname = "null";
+			deleteFromArray(stockArray, temp);
+		}
+
+	} else {
+		if (destCard.cardname == "-1") {
+			if (stockMatrix[currentIndex][2].value == 13){
+				tableauArea[0][targetColumnP] = stockMatrix[currentIndex][2];
+				tableauArea[0][targetColumnP].show = true;
+
+			}
+
+			else
+				cout << "Invalid Move!" << endl;
+		} else {
+			if (suitExpression(stockMatrix[currentIndex][2].suitChar,
+					destCard.suitChar) == true) {
+				stockMatrix[currentIndex][2].show = true;
+				tableauArea[lastcardTargetIndex+1][targetColumnP] =
+						stockMatrix[currentIndex][2];
+			} else
+				cout << "Invalid Move!" << endl;
+		}
+
+		temp = stockMatrix[currentIndex][2].cardname;
+		stockMatrix[currentIndex][2].cardname = "null";
+		deleteFromArray(stockArray, temp);
+	}
+
+}
+
+void Functions::sortingStockArray(card stockArray[]) {
+	cout << "hello world" << endl;
+}
+void Functions::deleteFromArray(card array[], string value) {
+	int i;
+	int k;
+	for (k = 0; k < 24; k++) {
+		if (array[k].cardname == value)
+			break;
+	}
+	for (i = k; i < 23; i++)
+		array[i] = array[i + 1];
+
+	for (int in = 1; in < 24; in++)
+		if (array[in].cardname == array[in - 1].cardname)
+			array[in].cardname = "___";
+
+}
+bool Functions::suitExpression(char source, char dest) {
+	if (source == 'H') {
+		if (dest == 'C' || dest == 'S')
+			return true;
+		else
+			return false;
+	} else if (source == 'D') {
+		if (dest == 'C' || dest == 'S')
+			return true;
+		else
+			return false;
+	} else if (source == 'C') {
+		if (dest == 'H' || dest == 'D')
+			return true;
+		else
+			return false;
+	} else if (source == 'S') {
+		if (dest == 'H' || dest == 'D')
+			return true;
+		else
+			return false;
+	}else
+		return false;
+
+}
