@@ -25,7 +25,7 @@ int Functions::findLastCard(int columnIndex, card tableauArea[][7]) {
 	for (int i = 0; i < 19; i++) {
 		if (tableauArea[i][columnIndex].cardname == "0") {
 			if (i == 0) {
-				cout << "Invaled Move" << endl;
+				currentIndex = -1;
 				break;
 			} else {
 				currentIndex = (i - 1);
@@ -60,91 +60,99 @@ void Functions::moveAnotherPile(string currentPosition, string cardSize,
 	int cardSize1 = std::stoi(cardSize);
 	int targetPositionC = std::stoi(targetPosition);
 
-
 	Functions functions;
 
-	int lastcardIndexIn = functions.findLastCard(currentPositionC, tableauArea);
+	int lastCardCurrentIndex = functions.findLastCard(currentPositionC,
+			tableauArea);
+	int firstCardCurrentIndex = lastCardCurrentIndex - cardSize1;
+	int lastcardTargetIndex = functions.findLastCard(targetPositionC,
+			tableauArea);
+	card firstCardCurrent = tableauArea[firstCardCurrentIndex][currentPositionC];
+	card destCard;
+	if (lastcardTargetIndex == -1) {
+		destCard.cardname = "-1";
+	} else
+		destCard = tableauArea[lastcardTargetIndex][targetPositionC];
 
-	if (cardSize1 > lastcardIndexIn)
+	if (cardSize1 > lastCardCurrentIndex)
 		cout << "Invalid Move";
 	else {
-		int firstcardInRow = lastcardIndexIn-cardSize1;
-
-
+		int firstcardInRow = lastCardCurrentIndex - cardSize1;
 		int lastcardTargetIndex = functions.findLastCard(targetPositionC,
 				tableauArea);
-		if ((tableauArea[firstcardInRow][currentPositionC].value + 1)
-				== tableauArea[lastcardTargetIndex][targetPositionC].value) {
-			if (tableauArea[firstcardInRow][currentPositionC].suitChar == 'H') {
-				if (tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-						== 'S'
-						|| tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-								== 'C') {
-					for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
-						card tempCard =
-								tableauArea[firstcardInRow + tempV][currentPositionC];
-						tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
-								"0";
-						tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
-								tempCard;
-					}
-
-				} else
-					cout << "Invalid Moves";
-			} else if (tableauArea[firstcardInRow][currentPositionC].suitChar
-					== 'D') {
-
-
-				if (tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-						== 'S'
-						|| tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-								== 'C') {
-					for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
-						card tempCard =
-								tableauArea[firstcardInRow + tempV][currentPositionC];
-						tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
-								"0";
-						tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
-								tempCard;
-					}
-
+		card sendingCard = tableauArea[firstcardInRow][currentPositionC];
+		if (destCard.cardname == "-1") {
+			if (sendingCard.value == 13) {
+				for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
+					card tempCard =
+							tableauArea[firstcardInRow + tempV][currentPositionC];
+					tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
+							"0";
+					tableauArea[tempV][targetPositionC] = tempCard;
 				}
+			} else
+				cout << "Invalid Move" << endl;
+		} else {
 
-			} else if (tableauArea[firstcardInRow][currentPositionC].suitChar
-					== 'S') {
-				if (tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-						== 'H'
-						|| tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-								== 'D') {
-					for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
-						card tempCard =
-								tableauArea[firstcardInRow + tempV][currentPositionC];
-						tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
-								"0";
-						tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
-								tempCard;
+			if ((sendingCard.value + 1) == destCard.value) {
+				if (sendingCard.suitChar == 'H') {
+					if (destCard.suitChar == 'S' || destCard.suitChar == 'C') {
+						for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
+							card tempCard =
+									tableauArea[firstcardInRow + tempV][currentPositionC];
+							tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
+									"0";
+							tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
+									tempCard;
+						}
+
+					} else
+						cout << "Invalid Moves";
+				} else if (sendingCard.suitChar == 'D') {
+
+					if (destCard.suitChar == 'S' || destCard.suitChar == 'C') {
+						for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
+							card tempCard =
+									tableauArea[firstcardInRow + tempV][currentPositionC];
+							tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
+									"0";
+							tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
+									tempCard;
+						}
+
 					}
 
-				} else
-					cout << "Invalid Moves";
+				} else if (sendingCard.suitChar == 'S') {
+					if (destCard.suitChar == 'H' || destCard.suitChar == 'D') {
+						for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
+							card tempCard =
+									tableauArea[firstcardInRow + tempV][currentPositionC];
+							tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
+									"0";
+							tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
+									tempCard;
+						}
 
-			} else if (tableauArea[firstcardInRow][currentPositionC].suitChar
-					== 'C') {
-				if (tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-						== 'H'
-						|| tableauArea[lastcardTargetIndex][targetPositionC].suitChar
-								== 'D') {
-					for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
-						card tempCard =
-								tableauArea[firstcardInRow + tempV][currentPositionC];
-						tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
-								"0";
-						tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
-								tempCard;
-					}
+					} else
+						cout << "Invalid Moves";
 
-				} else
-					cout << "Invalid Moves";
+				} else if (sendingCard.suitChar == 'C') {
+					if (destCard.suitChar == 'H' || destCard.suitChar == 'D') {
+						for (int tempV = 0; tempV < (cardSize1 + 1); tempV++) {
+							card tempCard =
+									tableauArea[firstcardInRow + tempV][currentPositionC];
+							tableauArea[firstcardInRow + tempV][currentPositionC].cardname =
+									"0";
+							tableauArea[lastcardTargetIndex + tempV + 1][targetPositionC] =
+									tempCard;
+						}
+
+					} else
+						cout << "Invalid Moves";
+				}
+			} else {
+				cout << endl;
+				cout << "Invalid Move!" << endl;
 			}
 		}
 

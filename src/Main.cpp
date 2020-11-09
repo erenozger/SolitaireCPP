@@ -238,7 +238,8 @@ void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
 				foundationSpades);
 		printMatrix(tableauArea, 19, 7);
-		cout << endl;
+
+
 	}
 
 

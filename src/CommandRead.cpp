@@ -10,10 +10,10 @@ void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7]
 		card foundationClubs[], card foundationSpades[]) {
 	Functions functions;
 	string commandArray[5];
+	cout<<endl;
 	cout << commandLine << endl;
-	cout<<endl;
-	cout<<"****************************************"<<endl;
-	cout<<endl;
+
+
 	wholeCommand = commandLine;
 	{
 		int i = 0;
@@ -48,4 +48,6 @@ void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7]
 	else
 		cout<<"another command"<<endl;
 
+	cout << endl;
+	cout<<"****************************************"<<endl;
 }
