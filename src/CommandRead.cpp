@@ -32,10 +32,9 @@ void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7]
 	if(mainCommand == "move"){
 		if(secondCommand == "to"){
 			if(fourthCommand=="pile")
-				functions.moveFoundation(fifthCommand,tableauArea,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades);
+				functions.moveFoundation(fifthCommand,tableauArea,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades,stockArray);
 			else if(fourthCommand=="waste"){
-				cout<<endl;
-				cout<<"allah allah"<<endl;
+				functions.moveWasteToFoundation(stockValuesList, stockMatrix, stockArray,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades);
 			}
 
 
@@ -46,7 +45,7 @@ void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7]
 		}
 	}else if(mainCommand == "open"){
 		if(secondCommand == "from"){
-			functions.openFromStock(stockValuesList);
+			functions.openFromStock(stockValuesList,stockArray,stockMatrix);
 
 		}else{
 			functions.openCardPile(secondCommand, tableauArea);

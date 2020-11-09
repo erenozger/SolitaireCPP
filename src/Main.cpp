@@ -132,20 +132,22 @@ void printStocksInGame(card stockMatrix[][3], StockValues stockValuesList[]) {
 	} else if (oneStock.currentStockIndex == (oneStock.maxIndex - 1)) {
 		cout << "___" << " ";
 		for (int i = 0; i < 3; i++) {
-			if(stockMatrix[oneStock.currentStockIndex][i].cardname =="null")
-				cout << "___"<< " ";
+			if (stockMatrix[oneStock.currentStockIndex][i].cardname == "null")
+				cout << "___" << " ";
 			else
-				cout << stockMatrix[oneStock.currentStockIndex][i].cardname<< " ";
+				cout << stockMatrix[oneStock.currentStockIndex][i].cardname
+						<< " ";
 
 		}
 
 	} else {
 		cout << "@@@" << " ";
 		for (int i = 0; i < 3; i++) {
-			if(stockMatrix[oneStock.currentStockIndex][i].cardname == "null")
-				cout << "___"<< " ";
+			if (stockMatrix[oneStock.currentStockIndex][i].cardname == "null")
+				cout << "___" << " ";
 			else
-				cout << stockMatrix[oneStock.currentStockIndex][i].cardname<< " ";
+				cout << stockMatrix[oneStock.currentStockIndex][i].cardname
+						<< " ";
 
 		}
 
@@ -238,6 +240,10 @@ void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
 				foundationSpades);
 		printMatrix(tableauArea, 19, 7);
+		/*cout << "\n-------------------" << endl;
+		for (int k = 0; k < 24; k++)
+			cout << stockArray[k].cardname << " ";
+		cout << "\n-------------------" << endl;*/
 
 	}
 
@@ -293,8 +299,17 @@ int main() {
 	createUpperTriangularBoard(deckArray, tableauArea, stockArray);
 	createStock(stockArray, stockMatrix);
 	playSolitaire(tableauArea, stockMatrix, stockArray, foundationHearts,
-			foundationDiamonds, foundationClubs, foundationSpades, stockValuesList);
+			foundationDiamonds, foundationClubs, foundationSpades,
+			stockValuesList);
 
+	cout<<endl;
+	cout<<endl;
+	cout<<"****************************************"<<endl;
+	cout<<endl;
+	cout<<"You Win!"<<endl;
+	cout<<endl;
+	cout<<"Game Over!"<<endl;
+	cout<<endl;
 	return 0;
 }
 
