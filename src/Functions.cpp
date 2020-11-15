@@ -8,26 +8,28 @@ void Functions::moveFoundation(string columnIndex, card tableauArea[][7],
 	int currentColumnIndex = std::stoi(columnIndex);
 	int currentIndex = functions.findLastCard(currentColumnIndex, tableauArea);
 	card currentcard;
-	if(currentIndex == -1){
-		cout<<"Invalid Move!"<<endl;
-	}else
+	if (currentIndex == -1) {
+		cout << endl;
+		cout << "Invalid Move!" << endl;
+	} else
 		currentcard = tableauArea[currentIndex][currentColumnIndex];
 
 	//tableauArea[currentIndex][currentColumnIndex].cardname = "0";
 	if (currentcard.suitChar == 'H') {
-		functions.addFoundation(foundationHearts, currentcard, stockArray,
-				temp,tableauArea,currentIndex,currentColumnIndex);
+		functions.addFoundation(foundationHearts, currentcard, stockArray, temp,
+				tableauArea, currentIndex, currentColumnIndex);
 	} else if (currentcard.suitChar == 'D') {
 
-
-		functions.addFoundation(foundationDiamonds, currentcard, stockArray,temp,tableauArea,currentIndex,currentColumnIndex);
+		functions.addFoundation(foundationDiamonds, currentcard, stockArray,
+				temp, tableauArea, currentIndex, currentColumnIndex);
 	} else if (currentcard.suitChar == 'C') {
 
-		functions.addFoundation(foundationClubs, currentcard, stockArray, temp,tableauArea,currentIndex,currentColumnIndex);
+		functions.addFoundation(foundationClubs, currentcard, stockArray, temp,
+				tableauArea, currentIndex, currentColumnIndex);
 
 	} else if (currentcard.suitChar == 'S') {
-		functions.addFoundation(foundationSpades, currentcard, stockArray,
-				temp,tableauArea,currentIndex,currentColumnIndex);
+		functions.addFoundation(foundationSpades, currentcard, stockArray, temp,
+				tableauArea, currentIndex, currentColumnIndex);
 	}
 
 }
@@ -54,7 +56,8 @@ void Functions::openCardPile(string columnIndex, card tableauArea[][7]) {
 	tableauArea[currentIndex][currentColumnIndex].show = true;
 }
 void Functions::addFoundation(card array[], card currentCard, card stockArray[],
-		string temp,card tableauArea[][7],int currentIndex, int currentColumnIndex) {
+		string temp, card tableauArea[][7], int currentIndex,
+		int currentColumnIndex) {
 	if (currentCard.value == 1) {
 		array[0] = currentCard;
 		deleteFromArray(stockArray, temp);
@@ -66,12 +69,16 @@ void Functions::addFoundation(card array[], card currentCard, card stockArray[],
 			array[controlInt + 1] = currentCard;
 			deleteFromArray(stockArray, temp);
 			tableauArea[currentIndex][currentColumnIndex].cardname = "0";
-		} else
-			cout << "Invaled Move" << endl;
+		} else {
+			cout << endl;
+			cout << "Invalid Move!" << endl;
+		}
+
 	}
 }
-void Functions::addFoundation2(card array[], card currentCard, card stockArray[],
-		string temp,card stockMatrix[][3], int currentIndex , int position) {
+void Functions::addFoundation2(card array[], card currentCard,
+		card stockArray[], string temp, card stockMatrix[][3], int currentIndex,
+		int position) {
 	if (currentCard.value == 1) {
 		array[0] = currentCard;
 		deleteFromArray(stockArray, temp);
@@ -83,8 +90,11 @@ void Functions::addFoundation2(card array[], card currentCard, card stockArray[]
 			deleteFromArray(stockArray, temp);
 			stockMatrix[currentIndex][position].cardname = "null";
 
-		} else
-			cout << "Invaled Move" << endl;
+		} else {
+			cout << endl;
+			cout << "Invalid Move!" << endl;
+		}
+
 	}
 }
 
@@ -108,8 +118,11 @@ void Functions::moveAnotherPile(string currentPosition, string cardSize,
 	} else
 		destCard = tableauArea[lastcardTargetIndex][targetPositionC];
 
-	if (cardSize1 > lastCardCurrentIndex)
+	if (cardSize1 > lastCardCurrentIndex) {
+		cout << endl;
 		cout << "Invalid Move";
+	}
+
 	else {
 		int firstcardInRow = lastCardCurrentIndex - cardSize1;
 		int lastcardTargetIndex = functions.findLastCard(targetPositionC,
@@ -124,8 +137,11 @@ void Functions::moveAnotherPile(string currentPosition, string cardSize,
 							"0";
 					tableauArea[tempV][targetPositionC] = tempCard;
 				}
-			} else
+			} else {
+				cout << endl;
 				cout << "Invalid Move" << endl;
+			}
+
 		} else {
 
 			if ((sendingCard.value + 1) == destCard.value) {
@@ -253,30 +269,43 @@ void Functions::moveWasteToPile(string targetColumn,
 						tableauArea[0][targetColumnP] =
 								stockMatrix[currentIndex][0];
 						tableauArea[0][targetColumnP].show = true;
+						temp = stockMatrix[currentIndex][0].cardname;
+						stockMatrix[currentIndex][0].cardname = "null";
+						deleteFromArray(stockArray, temp);
 					}
 
 					else
 						cout << "Invalid Move!" << endl;
 				} else {
-					if (suitExpression(stockMatrix[currentIndex][0].suitChar,
-							destCard.suitChar) == true) {
-						stockMatrix[currentIndex][0].show = true;
-						tableauArea[lastcardTargetIndex + 1][targetColumnP] =
-								stockMatrix[currentIndex][0];
 
+					if (stockMatrix[currentIndex][0].value
+							== (destCard.value - 1)) {
+						if (suitExpression(
+								stockMatrix[currentIndex][0].suitChar,
+								destCard.suitChar) == true) {
+							stockMatrix[currentIndex][0].show = true;
+							tableauArea[lastcardTargetIndex + 1][targetColumnP] =
+									stockMatrix[currentIndex][0];
+							temp = stockMatrix[currentIndex][0].cardname;
+							stockMatrix[currentIndex][0].cardname = "null";
+							deleteFromArray(stockArray, temp);
+
+						} else
+							cout << "Invalid Move!" << endl;
 					} else
 						cout << "Invalid Move!" << endl;
+
 				}
 				int tempMax = stockValuesList[0].maxIndex;
-				temp = stockMatrix[currentIndex][0].cardname;
-				stockMatrix[currentIndex][0].cardname = "null";
-				deleteFromArray(stockArray, temp);
+
 				if (currentIndex != 0 && currentIndex != (tempMax - 1))
 					stockValuesList[0].currentStockIndex = currentIndex - 1;
 				else if (currentIndex == (tempMax - 1)) {
 					if (stockMatrix[currentIndex - 1][2].cardname == "null") {
-						if (stockMatrix[currentIndex - 1][1].cardname == "null") {
-							if (stockMatrix[currentIndex - 1][0].cardname == "null")
+						if (stockMatrix[currentIndex - 1][1].cardname
+								== "null") {
+							if (stockMatrix[currentIndex - 1][0].cardname
+									== "null")
 								cout << "Invalid Move!" << endl;
 							else {
 								card tempPre = stockMatrix[currentIndex - 1][0];
@@ -305,26 +334,33 @@ void Functions::moveWasteToPile(string targetColumn,
 					tableauArea[0][targetColumnP] =
 							stockMatrix[currentIndex][1];
 					tableauArea[0][targetColumnP].show = true;
+					temp = stockMatrix[currentIndex][1].cardname;
+					stockMatrix[currentIndex][1].cardname = "null";
+					deleteFromArray(stockArray, temp);
 				}
 
 				else
 					cout << "Invalid Move!" << endl;
 			} else {
-				cout<<endl;
-				cout<<"buraya girdik"<<endl;
-				cout<<"dest card : "<< destCard.cardname<<endl;
-				cout<<"suitExpression(stockMatrix[currentIndex][1] : "<<stockMatrix[currentIndex][1].cardname<<endl;
-				if (suitExpression(stockMatrix[currentIndex][1].suitChar,
-						destCard.suitChar) == true) {
-					stockMatrix[currentIndex][1].show = true;
-					tableauArea[lastcardTargetIndex + 1][targetColumnP] =
-							stockMatrix[currentIndex][1];
+
+				if (stockMatrix[currentIndex][1].value
+						== (destCard.value - 1)) {
+					if (suitExpression(stockMatrix[currentIndex][1].suitChar,
+							destCard.suitChar) == true) {
+						stockMatrix[currentIndex][1].show = true;
+						tableauArea[lastcardTargetIndex + 1][targetColumnP] =
+								stockMatrix[currentIndex][1];
+						temp = stockMatrix[currentIndex][1].cardname;
+						stockMatrix[currentIndex][1].cardname = "null";
+						deleteFromArray(stockArray, temp);
+					} else
+						cout << "Invalid Move!" << endl;
+
 				} else
 					cout << "Invalid Move!" << endl;
+
 			}
-			temp = stockMatrix[currentIndex][1].cardname;
-			stockMatrix[currentIndex][1].cardname = "null";
-			deleteFromArray(stockArray, temp);
+
 		}
 
 	} else {
@@ -332,24 +368,32 @@ void Functions::moveWasteToPile(string targetColumn,
 			if (stockMatrix[currentIndex][2].value == 13) {
 				tableauArea[0][targetColumnP] = stockMatrix[currentIndex][2];
 				tableauArea[0][targetColumnP].show = true;
+				temp = stockMatrix[currentIndex][2].cardname;
+				stockMatrix[currentIndex][2].cardname = "null";
+				deleteFromArray(stockArray, temp);
 
 			}
 
 			else
 				cout << "Invalid Move!" << endl;
 		} else {
-			if (suitExpression(stockMatrix[currentIndex][2].suitChar,
-					destCard.suitChar) == true) {
-				stockMatrix[currentIndex][2].show = true;
-				tableauArea[lastcardTargetIndex + 1][targetColumnP] =
-						stockMatrix[currentIndex][2];
+			if (stockMatrix[currentIndex][2].value == (destCard.value - 1)) {
+				if (suitExpression(stockMatrix[currentIndex][2].suitChar,
+						destCard.suitChar) == true) {
+					stockMatrix[currentIndex][2].show = true;
+					tableauArea[lastcardTargetIndex + 1][targetColumnP] =
+							stockMatrix[currentIndex][2];
+					temp = stockMatrix[currentIndex][2].cardname;
+					stockMatrix[currentIndex][2].cardname = "null";
+					deleteFromArray(stockArray, temp);
+				} else
+					cout << "Invalid Move!" << endl;
+
 			} else
 				cout << "Invalid Move!" << endl;
+
 		}
 
-		temp = stockMatrix[currentIndex][2].cardname;
-		stockMatrix[currentIndex][2].cardname = "null";
-		deleteFromArray(stockArray, temp);
 	}
 
 }
@@ -417,16 +461,16 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 				//stockMatrix[currentIndex][0].cardname = "null";
 				if (tempCard.suitChar == 'H') {
 					functions.addFoundation2(foundationHearts, tempCard,
-							stockArray, temp,stockMatrix,currentIndex,0);
+							stockArray, temp, stockMatrix, currentIndex, 0);
 				} else if (tempCard.suitChar == 'D') {
 					functions.addFoundation2(foundationDiamonds, tempCard,
-							stockArray, temp,stockMatrix,currentIndex,0);
+							stockArray, temp, stockMatrix, currentIndex, 0);
 				} else if (tempCard.suitChar == 'C') {
 					functions.addFoundation2(foundationClubs, tempCard,
-							stockArray, temp,stockMatrix,currentIndex,0);
+							stockArray, temp, stockMatrix, currentIndex, 0);
 				} else if (tempCard.suitChar == 'S') {
 					functions.addFoundation2(foundationSpades, tempCard,
-							stockArray, temp,stockMatrix,currentIndex,0);
+							stockArray, temp, stockMatrix, currentIndex, 0);
 				}
 				if (currentIndex > 0)
 					stockValuesList[0].currentStockIndex = currentIndex - 1;
@@ -438,16 +482,16 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 			//stockMatrix[currentIndex][1].cardname = "null";
 			if (tempCard.suitChar == 'H') {
 				functions.addFoundation2(foundationHearts, tempCard, stockArray,
-						temp,stockMatrix,currentIndex,1);
+						temp, stockMatrix, currentIndex, 1);
 			} else if (tempCard.suitChar == 'D') {
 				functions.addFoundation2(foundationDiamonds, tempCard,
-						stockArray, temp,stockMatrix,currentIndex,1);
+						stockArray, temp, stockMatrix, currentIndex, 1);
 			} else if (tempCard.suitChar == 'C') {
 				functions.addFoundation2(foundationClubs, tempCard, stockArray,
-						temp,stockMatrix,currentIndex,1);
+						temp, stockMatrix, currentIndex, 1);
 			} else if (tempCard.suitChar == 'S') {
 				functions.addFoundation2(foundationSpades, tempCard, stockArray,
-						temp,stockMatrix,currentIndex,1);
+						temp, stockMatrix, currentIndex, 1);
 			}
 
 		}
@@ -457,16 +501,16 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 		//stockMatrix[currentIndex][2].cardname = "null";
 		if (tempCard.suitChar == 'H') {
 			functions.addFoundation2(foundationHearts, tempCard, stockArray,
-					temp,stockMatrix,currentIndex,2);
+					temp, stockMatrix, currentIndex, 2);
 		} else if (tempCard.suitChar == 'D') {
 			functions.addFoundation2(foundationDiamonds, tempCard, stockArray,
-					temp,stockMatrix,currentIndex,2);
+					temp, stockMatrix, currentIndex, 2);
 		} else if (tempCard.suitChar == 'C') {
 			functions.addFoundation2(foundationClubs, tempCard, stockArray,
-					temp,stockMatrix,currentIndex,2);
+					temp, stockMatrix, currentIndex, 2);
 		} else if (tempCard.suitChar == 'S') {
 			functions.addFoundation2(foundationSpades, tempCard, stockArray,
-					temp,stockMatrix,currentIndex,2);
+					temp, stockMatrix, currentIndex, 2);
 		}
 	}
 

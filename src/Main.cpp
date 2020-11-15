@@ -19,7 +19,7 @@ using namespace std;
 
 void reverseDeck(card deck[], int begin, int end) {
 	if (end != 51) {
-		cout << "Invaled deck size!" << endl;
+		cout << "Invalid deck size!" << endl;
 		exit(0);
 	} else {
 		while (begin < end) {
@@ -223,34 +223,32 @@ void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		card stockArray[], card foundationHearts[], card foundationDiamonds[],
 		card foundationClubs[], card foundationSpades[],
 		StockValues stockValuesList[]) {
-
+	cout<<endl;
 	printStocksInGame(stockMatrix, stockValuesList);
 	printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
 			foundationSpades);
 	printMatrix(tableauArea, 19, 7);
 
 	string command;
-	ifstream commandFile("commands2.txt");
+	ifstream commandFile("commands1.txt");
 	while (std::getline(commandFile, command)) {
 		CommandRead commandread;
 		commandread.calculateWholeCommand(command, tableauArea, stockMatrix,
 				stockArray, foundationHearts, foundationDiamonds,
 				foundationClubs, foundationSpades, stockValuesList);
+		cout<<endl;
 		printStocksInGame(stockMatrix, stockValuesList);
 		printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
 				foundationSpades);
 		printMatrix(tableauArea, 19, 7);
-		/*cout << "\n-------------------" << endl;
-		for (int k = 0; k < 24; k++)
-			cout << stockArray[k].cardname << " ";
-		cout << "\n-------------------" << endl;*/
+
 
 	}
 
 }
 int main() {
 
-	ifstream file("deck2.txt");
+	ifstream file("deck1.txt");
 	int deckSizeCount = 0;
 	string line;
 	while (getline(file, line)) {

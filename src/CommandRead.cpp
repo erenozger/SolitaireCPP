@@ -51,6 +51,11 @@ void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7]
 			functions.openCardPile(secondCommand, tableauArea);
 		}
 
+	}else if(mainCommand == "exit"){
+		cout<<endl;
+		cout<<"****************************************"<<endl<<endl;
+		cout<<"Game Over!"<<endl;
+		exit(0);
 	}
 	else
 		cout<<"another command"<<endl;
