@@ -230,7 +230,7 @@ void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 	printMatrix(tableauArea, 19, 7);
 
 	string command;
-	ifstream commandFile("commands.txt");
+	ifstream commandFile("commands2.txt");
 	while (std::getline(commandFile, command)) {
 		CommandRead commandread;
 		commandread.calculateWholeCommand(command, tableauArea, stockMatrix,
@@ -250,7 +250,7 @@ void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 }
 int main() {
 
-	ifstream file("deck.txt");
+	ifstream file("deck2.txt");
 	int deckSizeCount = 0;
 	string line;
 	while (getline(file, line)) {

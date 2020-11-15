@@ -15,7 +15,7 @@ public:
 	int findLastCard(int columnIndex,card tableauArea[][7]);
 	void openCardPile(string columnIndex,card tableauArea[][7]);
 	void addFoundation(card[],card,card [],string,card [][7],int , int );
-	void addFoundation2(card[],card,card [],string);
+	void addFoundation2(card[],card,card [],string,card [][3],int,int);
 	void moveAnotherPile(string currentPosition,string cardSize,string targetPosition,card tableauArea[][7]);
 	void openFromStock(StockValues[],card[],card [][3] );
 	void sortingStockArray(card []);

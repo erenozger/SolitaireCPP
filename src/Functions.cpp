@@ -71,21 +71,23 @@ void Functions::addFoundation(card array[], card currentCard, card stockArray[],
 	}
 }
 void Functions::addFoundation2(card array[], card currentCard, card stockArray[],
-		string temp) {
+		string temp,card stockMatrix[][3], int currentIndex , int position) {
 	if (currentCard.value == 1) {
 		array[0] = currentCard;
 		deleteFromArray(stockArray, temp);
-
+		stockMatrix[currentIndex][position].cardname = "null";
 	} else {
 		int controlInt = (currentCard.value - 2);
 		if (array[controlInt].cardname != "0") {
 			array[controlInt + 1] = currentCard;
 			deleteFromArray(stockArray, temp);
+			stockMatrix[currentIndex][position].cardname = "null";
 
 		} else
 			cout << "Invaled Move" << endl;
 	}
 }
+
 void Functions::moveAnotherPile(string currentPosition, string cardSize,
 		string targetPosition, card tableauArea[][7]) {
 	int currentPositionC = std::stoi(currentPosition);
@@ -308,6 +310,10 @@ void Functions::moveWasteToPile(string targetColumn,
 				else
 					cout << "Invalid Move!" << endl;
 			} else {
+				cout<<endl;
+				cout<<"buraya girdik"<<endl;
+				cout<<"dest card : "<< destCard.cardname<<endl;
+				cout<<"suitExpression(stockMatrix[currentIndex][1] : "<<stockMatrix[currentIndex][1].cardname<<endl;
 				if (suitExpression(stockMatrix[currentIndex][1].suitChar,
 						destCard.suitChar) == true) {
 					stockMatrix[currentIndex][1].show = true;
@@ -408,19 +414,19 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 			} else {
 				tempCard = stockMatrix[currentIndex][0];
 				temp = tempCard.cardname;
-				stockMatrix[currentIndex][0].cardname = "null";
+				//stockMatrix[currentIndex][0].cardname = "null";
 				if (tempCard.suitChar == 'H') {
 					functions.addFoundation2(foundationHearts, tempCard,
-							stockArray, temp);
+							stockArray, temp,stockMatrix,currentIndex,0);
 				} else if (tempCard.suitChar == 'D') {
 					functions.addFoundation2(foundationDiamonds, tempCard,
-							stockArray, temp);
+							stockArray, temp,stockMatrix,currentIndex,0);
 				} else if (tempCard.suitChar == 'C') {
 					functions.addFoundation2(foundationClubs, tempCard,
-							stockArray, temp);
+							stockArray, temp,stockMatrix,currentIndex,0);
 				} else if (tempCard.suitChar == 'S') {
 					functions.addFoundation2(foundationSpades, tempCard,
-							stockArray, temp);
+							stockArray, temp,stockMatrix,currentIndex,0);
 				}
 				if (currentIndex > 0)
 					stockValuesList[0].currentStockIndex = currentIndex - 1;
@@ -429,38 +435,38 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 		} else {
 			tempCard = stockMatrix[currentIndex][1];
 			temp = tempCard.cardname;
-			stockMatrix[currentIndex][1].cardname = "null";
+			//stockMatrix[currentIndex][1].cardname = "null";
 			if (tempCard.suitChar == 'H') {
 				functions.addFoundation2(foundationHearts, tempCard, stockArray,
-						temp);
+						temp,stockMatrix,currentIndex,1);
 			} else if (tempCard.suitChar == 'D') {
 				functions.addFoundation2(foundationDiamonds, tempCard,
-						stockArray, temp);
+						stockArray, temp,stockMatrix,currentIndex,1);
 			} else if (tempCard.suitChar == 'C') {
 				functions.addFoundation2(foundationClubs, tempCard, stockArray,
-						temp);
+						temp,stockMatrix,currentIndex,1);
 			} else if (tempCard.suitChar == 'S') {
 				functions.addFoundation2(foundationSpades, tempCard, stockArray,
-						temp);
+						temp,stockMatrix,currentIndex,1);
 			}
 
 		}
 	} else {
 		tempCard = stockMatrix[currentIndex][2];
 		temp = tempCard.cardname;
-		stockMatrix[currentIndex][2].cardname = "null";
+		//stockMatrix[currentIndex][2].cardname = "null";
 		if (tempCard.suitChar == 'H') {
 			functions.addFoundation2(foundationHearts, tempCard, stockArray,
-					temp);
+					temp,stockMatrix,currentIndex,2);
 		} else if (tempCard.suitChar == 'D') {
 			functions.addFoundation2(foundationDiamonds, tempCard, stockArray,
-					temp);
+					temp,stockMatrix,currentIndex,2);
 		} else if (tempCard.suitChar == 'C') {
 			functions.addFoundation2(foundationClubs, tempCard, stockArray,
-					temp);
+					temp,stockMatrix,currentIndex,2);
 		} else if (tempCard.suitChar == 'S') {
 			functions.addFoundation2(foundationSpades, tempCard, stockArray,
-					temp);
+					temp,stockMatrix,currentIndex,2);
 		}
 	}
 
