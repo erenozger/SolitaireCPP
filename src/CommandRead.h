@@ -17,7 +17,7 @@ public:
 	void calculateWholeCommand(string, card tableauArea[][7],
 			card stockMatrix[][3], card stockArray[], card foundationHearts[],
 			card foundationDiamonds[], card foundationClubs[],
-			card foundationSpades[],StockValues stockValuesList[] );
+			card foundationSpades[],StockValues stockValuesList[] ,std::ostream& output);
 
 };
 

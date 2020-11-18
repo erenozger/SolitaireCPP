@@ -17,9 +17,9 @@
 #define ONESUITSIZE 13
 using namespace std;
 
-void reverseDeck(card deck[], int begin, int end) {
+void reverseDeck(card deck[], int begin, int end,std::ostream& output) {
 	if (end != 51) {
-		cout << "Invalid deck size!" << endl;
+		output << "Invalid deck size!" << endl;
 		exit(0);
 	} else {
 		while (begin < end) {
@@ -33,10 +33,10 @@ void reverseDeck(card deck[], int begin, int end) {
 
 }
 
-void printDeck(card deck[], int size) {
+void printDeck(card deck[], int size,std::ostream& output) {
 	for (int i = 0; i < size; i++)
-		cout << deck[i].cardname << " ";
-	cout << endl;
+		output << deck[i].cardname << " ";
+	output << endl;
 }
 void createUpperTriangularBoard(card deckArray[], card tableauArea[19][7],
 		card stockArray[]) {
@@ -68,7 +68,7 @@ void createUpperTriangularBoard(card deckArray[], card tableauArea[19][7],
 	}
 
 }
-void printMatrix(card matrix[][7], int row, int column) {
+void printMatrix(card matrix[][7], int row, int column,std::ostream& output) {
 
 	int i, j;
 	int printRow;
@@ -91,15 +91,15 @@ void printMatrix(card matrix[][7], int row, int column) {
 		for (j = 0; j < column; j++) {
 			if (matrix[i][j].cardname != "0") {
 				if (matrix[i][j].show == false)
-					cout << "@@@" << "   ";
+					output << "@@@" << "   ";
 				else
-					cout << matrix[i][j].cardname << "   ";
+					output << matrix[i][j].cardname << "   ";
 
 			} else
-				cout << "   " << "   ";
+				output << "   " << "   ";
 
 		}
-		printf("\n");
+		output<<endl;
 	}
 
 }
@@ -111,144 +111,145 @@ void createStock(card stockArray[24], card stockMatrix[8][3]) {
 	}
 
 }
-void printStockMatrix(card array[][3]) {
+void printStockMatrix(card array[][3],std::ostream& output) {
 	int i, j;
 	for (i = 0; i < 8; i++) {
 		for (j = 0; j < 3; j++) {
 			if (array[i][j].cardname == "null")
-				cout << "___" << "\t";
+				output << "___" << "\t";
 			else
-				cout << array[i][j].cardname << "\t";
+				output << array[i][j].cardname << "\t";
 
 		}
-		cout << endl;
+		output << endl;
 	}
 }
-void printStocksInGame(card stockMatrix[][3], StockValues stockValuesList[]) {
+void printStocksInGame(card stockMatrix[][3], StockValues stockValuesList[],std::ostream& output) {
 	StockValues oneStock = stockValuesList[0];
 	if (oneStock.currentStockIndex == -1) {
-		cout << "@@@" << " " << "___" << " " << "___" << " " << "___" << " ";
+		output << "@@@" << " " << "___" << " " << "___" << " " << "___" << " ";
 
 	} else if (oneStock.currentStockIndex == (oneStock.maxIndex - 1)) {
-		cout << "___" << " ";
+		output << "___" << " ";
 		for (int i = 0; i < 3; i++) {
 			if (stockMatrix[oneStock.currentStockIndex][i].cardname == "null")
-				cout << "___" << " ";
+				output << "___" << " ";
 			else
-				cout << stockMatrix[oneStock.currentStockIndex][i].cardname
+				output << stockMatrix[oneStock.currentStockIndex][i].cardname
 						<< " ";
 
 		}
 
 	} else {
-		cout << "@@@" << " ";
+		output << "@@@" << " ";
 		for (int i = 0; i < 3; i++) {
 			if (stockMatrix[oneStock.currentStockIndex][i].cardname == "null")
-				cout << "___" << " ";
+				output << "___" << " ";
 			else
-				cout << stockMatrix[oneStock.currentStockIndex][i].cardname
+				output << stockMatrix[oneStock.currentStockIndex][i].cardname
 						<< " ";
 
 		}
 
 	}
-	cout << "        ";
+	output << "        ";
 
 }
 void printFoundations(card foundationHearts[], card foundationDiamonds[],
-		card foundationClubs[], card foundationSpades[]) {
+		card foundationClubs[], card foundationSpades[],std::ostream& output) {
 	if (foundationHearts[0].cardname == "0")
-		cout << "___" << " ";
+		output << "___" << " ";
 	else
 
 		for (int temp = 1; temp < 13; temp++) {
 			if (temp == 12) {
 				if (foundationHearts[temp].cardname == "0")
-					cout << foundationHearts[temp - 1].cardname << " ";
+					output << foundationHearts[temp - 1].cardname << " ";
 				else
-					cout << foundationHearts[temp].cardname << " ";
+					output << foundationHearts[temp].cardname << " ";
 			} else if (foundationHearts[temp].cardname == "0") {
-				cout << foundationHearts[temp - 1].cardname << " ";
+				output << foundationHearts[temp - 1].cardname << " ";
 				break;
 			}
 		}
 	if (foundationDiamonds[0].cardname == "0")
-		cout << "___" << " ";
+		output << "___" << " ";
 	else {
 		for (int temp1 = 1; temp1 < 13; temp1++) {
 			if (temp1 == 12) {
 				if (foundationDiamonds[temp1].cardname == "0")
-					cout << foundationDiamonds[temp1 - 1].cardname << " ";
+					output << foundationDiamonds[temp1 - 1].cardname << " ";
 				else
-					cout << foundationDiamonds[temp1].cardname << " ";
+					output << foundationDiamonds[temp1].cardname << " ";
 			} else if (foundationDiamonds[temp1].cardname == "0") {
-				cout << foundationDiamonds[temp1 - 1].cardname << " ";
+				output << foundationDiamonds[temp1 - 1].cardname << " ";
 				break;
 			}
 		}
 	}
 	if (foundationSpades[0].cardname == "0")
-		cout << "___" << " ";
+		output << "___" << " ";
 	else {
 		for (int temp3 = 1; temp3 < 13; temp3++) {
 			if (temp3 == 12) {
 				if (foundationSpades[temp3].cardname == "0")
-					cout << foundationSpades[temp3 - 1].cardname << " ";
+					output << foundationSpades[temp3 - 1].cardname << " ";
 				else
-					cout << foundationSpades[temp3].cardname << " ";
+					output << foundationSpades[temp3].cardname << " ";
 			} else if (foundationSpades[temp3].cardname == "0") {
-				cout << foundationSpades[temp3 - 1].cardname << " ";
+				output << foundationSpades[temp3 - 1].cardname << " ";
 				break;
 			}
 		}
 	}
 	if (foundationClubs[0].cardname == "0")
-		cout << "___" << " ";
+		output << "___" << " ";
 	else {
 		for (int temp2 = 1; temp2 < 13; temp2++) {
 			if (temp2 == 12) {
 				if (foundationClubs[temp2].cardname == "0")
-					cout << foundationClubs[temp2 - 1].cardname << " ";
+					output << foundationClubs[temp2 - 1].cardname << " ";
 				else
-					cout << foundationClubs[temp2].cardname << " ";
+					output << foundationClubs[temp2].cardname << " ";
 			} else if (foundationClubs[temp2].cardname == "0") {
-				cout << foundationClubs[temp2 - 1].cardname << " ";
+				output << foundationClubs[temp2 - 1].cardname << " ";
 				break;
 			}
 		}
 	}
-	cout << endl << endl;
+	output << endl << endl;
 }
 void playSolitaire(card tableauArea[][7], card stockMatrix[][3],
 		card stockArray[], card foundationHearts[], card foundationDiamonds[],
 		card foundationClubs[], card foundationSpades[],
-		StockValues stockValuesList[]) {
-	cout<<endl;
-	printStocksInGame(stockMatrix, stockValuesList);
+		StockValues stockValuesList[],std::ostream& output) {
+	output<<endl;
+	printStocksInGame(stockMatrix, stockValuesList,output);
 	printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
-			foundationSpades);
-	printMatrix(tableauArea, 19, 7);
+			foundationSpades,output);
+	printMatrix(tableauArea, 19, 7,output);
 
 	string command;
-	ifstream commandFile("commands1.txt");
+	ifstream commandFile("commands3.txt");
 	while (std::getline(commandFile, command)) {
 		CommandRead commandread;
 		commandread.calculateWholeCommand(command, tableauArea, stockMatrix,
 				stockArray, foundationHearts, foundationDiamonds,
-				foundationClubs, foundationSpades, stockValuesList);
-		cout<<endl;
-		printStocksInGame(stockMatrix, stockValuesList);
+				foundationClubs, foundationSpades, stockValuesList,output);
+		output<<endl;
+		printStocksInGame(stockMatrix, stockValuesList,output);
 		printFoundations(foundationHearts, foundationDiamonds, foundationClubs,
-				foundationSpades);
-		printMatrix(tableauArea, 19, 7);
+				foundationSpades,output);
+		printMatrix(tableauArea, 19, 7,output);
 
 
 	}
 
 }
 int main() {
-
-	ifstream file("deck1.txt");
+	ofstream output;
+	output.open("output.txt");
+	ifstream file("deck3.txt");
 	int deckSizeCount = 0;
 	string line;
 	while (getline(file, line)) {
@@ -269,12 +270,12 @@ int main() {
 		deckArray[arrayTemp].show = false;
 		deckArray[arrayTemp].suitChar = str.at(0);
 		string subString = str.substr(1, 2);
-		int valueTemp = std::stoi(subString);
+		int valueTemp = stoi(subString);
 		deckArray[arrayTemp].value = valueTemp;
 		arrayTemp++;
 
 	}
-	reverseDeck(deckArray, 0, deckSizeCount - 1);
+	reverseDeck(deckArray, 0, deckSizeCount - 1,output);
 	card tableauArea[PILESIZE + (ONESUITSIZE - 1)][PILESIZE];
 	card stockArray[STOCKSIZE];
 	card stockMatrix[8][3];
@@ -298,16 +299,16 @@ int main() {
 	createStock(stockArray, stockMatrix);
 	playSolitaire(tableauArea, stockMatrix, stockArray, foundationHearts,
 			foundationDiamonds, foundationClubs, foundationSpades,
-			stockValuesList);
+			stockValuesList,output);
 
-	cout<<endl;
-	cout<<endl;
-	cout<<"****************************************"<<endl;
-	cout<<endl;
-	cout<<"You Win!"<<endl;
-	cout<<endl;
-	cout<<"Game Over!"<<endl;
-	cout<<endl;
+	output<<endl;
+	output<<endl;
+	output<<"****************************************"<<endl;
+	output<<endl;
+	output<<"You Win!"<<endl;
+	output<<endl;
+	output<<"Game Over!"<<endl;
+	output<<endl;
 	return 0;
 }
 

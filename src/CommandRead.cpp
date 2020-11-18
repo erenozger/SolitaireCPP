@@ -2,16 +2,17 @@
 #include <stdio.h>
 #include <string.h>
 #include <sstream>
+#include <iostream>
 
 using namespace std;
 
 void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7], card stockMatrix[][3],
 		card stockArray[], card foundationHearts[], card foundationDiamonds[],
-		card foundationClubs[], card foundationSpades[],StockValues stockValuesList[]) {
+		card foundationClubs[], card foundationSpades[],StockValues stockValuesList[],std::ostream& output) {
 	Functions functions;
 	string commandArray[5];
-	cout<<endl;
-	cout << commandLine << endl;
+	output<<endl;
+	output << commandLine << endl;
 
 
 	wholeCommand = commandLine;
@@ -32,34 +33,34 @@ void CommandRead::calculateWholeCommand(string commandLine,card tableauArea[][7]
 	if(mainCommand == "move"){
 		if(secondCommand == "to"){
 			if(fourthCommand=="pile")
-				functions.moveFoundation(fifthCommand,tableauArea,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades,stockArray);
+				functions.moveFoundation(fifthCommand,tableauArea,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades,stockArray,output);
 			else if(fourthCommand=="waste"){
-				functions.moveWasteToFoundation(stockValuesList, stockMatrix, stockArray,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades);
+				functions.moveWasteToFoundation(stockValuesList, stockMatrix, stockArray,foundationHearts,foundationDiamonds,foundationClubs,foundationSpades,output);
 			}
 
 
 		}else if(secondCommand == "pile"){
-			functions.moveAnotherPile(thirdCommand,fourthCommand,fifthCommand,tableauArea);
+			functions.moveAnotherPile(thirdCommand,fourthCommand,fifthCommand,tableauArea,output);
 		}else if(secondCommand == "waste"){
-			functions.moveWasteToPile(thirdCommand,stockValuesList,stockMatrix,stockArray,tableauArea);
+			functions.moveWasteToPile(thirdCommand,stockValuesList,stockMatrix,stockArray,tableauArea,output);
 		}
 	}else if(mainCommand == "open"){
 		if(secondCommand == "from"){
-			functions.openFromStock(stockValuesList,stockArray,stockMatrix);
+			functions.openFromStock(stockValuesList,stockArray,stockMatrix,output);
 
 		}else{
-			functions.openCardPile(secondCommand, tableauArea);
+			functions.openCardPile(secondCommand, tableauArea,output);
 		}
 
 	}else if(mainCommand == "exit"){
-		cout<<endl;
-		cout<<"****************************************"<<endl<<endl;
-		cout<<"Game Over!"<<endl;
+		output<<endl;
+		output<<"****************************************"<<endl<<endl;
+		output<<"Game Over!"<<endl;
 		exit(0);
 	}
 	else
-		cout<<"another command"<<endl;
+		output<<"another command"<<endl;
 
-	cout << endl;
-	cout<<"****************************************"<<endl;
+	output << endl;
+	output<<"****************************************"<<endl;
 }
