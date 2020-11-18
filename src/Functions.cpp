@@ -3,7 +3,8 @@
 
 void Functions::moveFoundation(string columnIndex, card tableauArea[][7],
 		card foundationHearts[], card foundationDiamonds[],
-		card foundationClubs[], card foundationSpades[], card stockArray[],std::ostream& output) {
+		card foundationClubs[], card foundationSpades[], card stockArray[],
+		std::ostream &output) {
 	Functions functions;
 	string temp = "none";
 	int currentColumnIndex = std::stoi(columnIndex);
@@ -18,19 +19,19 @@ void Functions::moveFoundation(string columnIndex, card tableauArea[][7],
 	//tableauArea[currentIndex][currentColumnIndex].cardname = "0";
 	if (currentcard.suitChar == 'H') {
 		functions.addFoundation(foundationHearts, currentcard, stockArray, temp,
-				tableauArea, currentIndex, currentColumnIndex,output);
+				tableauArea, currentIndex, currentColumnIndex, output);
 	} else if (currentcard.suitChar == 'D') {
 
 		functions.addFoundation(foundationDiamonds, currentcard, stockArray,
-				temp, tableauArea, currentIndex, currentColumnIndex,output);
+				temp, tableauArea, currentIndex, currentColumnIndex, output);
 	} else if (currentcard.suitChar == 'C') {
 
 		functions.addFoundation(foundationClubs, currentcard, stockArray, temp,
-				tableauArea, currentIndex, currentColumnIndex,output);
+				tableauArea, currentIndex, currentColumnIndex, output);
 
 	} else if (currentcard.suitChar == 'S') {
 		functions.addFoundation(foundationSpades, currentcard, stockArray, temp,
-				tableauArea, currentIndex, currentColumnIndex,output);
+				tableauArea, currentIndex, currentColumnIndex, output);
 	}
 
 }
@@ -50,20 +51,21 @@ int Functions::findLastCard(int columnIndex, card tableauArea[][7]) {
 	}
 	return currentIndex;
 }
-void Functions::openCardPile(string columnIndex, card tableauArea[][7],std::ostream& output) {
+void Functions::openCardPile(string columnIndex, card tableauArea[][7],
+		std::ostream &output) {
 	Functions functions;
 	int currentColumnIndex = stoi(columnIndex);
 	int currentIndex = functions.findLastCard(currentColumnIndex, tableauArea);
-	if(tableauArea[currentIndex][currentColumnIndex].show == false){
+	if (tableauArea[currentIndex][currentColumnIndex].show == false) {
 		tableauArea[currentIndex][currentColumnIndex].show = true;
-	}else{
-		output<<"\nInvalid Move!"<<endl;
+	} else {
+		output << "\nInvalid Move!" << endl;
 	}
 
 }
 void Functions::addFoundation(card array[], card currentCard, card stockArray[],
 		string temp, card tableauArea[][7], int currentIndex,
-		int currentColumnIndex,std::ostream& output) {
+		int currentColumnIndex, std::ostream &output) {
 	if (currentCard.value == 1) {
 		array[0] = currentCard;
 		deleteFromArray(stockArray, temp);
@@ -84,17 +86,22 @@ void Functions::addFoundation(card array[], card currentCard, card stockArray[],
 }
 void Functions::addFoundation2(card array[], card currentCard,
 		card stockArray[], string temp, card stockMatrix[][3], int currentIndex,
-		int position,std::ostream& output) {
+		int position, std::ostream &output, StockValues stockValuesList[]) {
+
 	if (currentCard.value == 1) {
 		array[0] = currentCard;
 		deleteFromArray(stockArray, temp);
 		stockMatrix[currentIndex][position].cardname = "null";
+		if (position == 0)
+			createWasteWhenEmpty(stockValuesList, stockMatrix, output);
 	} else {
 		int controlInt = (currentCard.value - 2);
 		if (array[controlInt].cardname != "0") {
 			array[controlInt + 1] = currentCard;
 			deleteFromArray(stockArray, temp);
 			stockMatrix[currentIndex][position].cardname = "null";
+			if (position == 0)
+				createWasteWhenEmpty(stockValuesList, stockMatrix, output);
 
 		} else {
 			output << endl;
@@ -102,10 +109,11 @@ void Functions::addFoundation2(card array[], card currentCard,
 		}
 
 	}
+
 }
 
 void Functions::moveAnotherPile(string currentPosition, string cardSize,
-		string targetPosition, card tableauArea[][7],std::ostream& output) {
+		string targetPosition, card tableauArea[][7], std::ostream &output) {
 	int currentPositionC = std::stoi(currentPosition);
 	int cardSize1 = std::stoi(cardSize);
 	int targetPositionC = std::stoi(targetPosition);
@@ -217,7 +225,7 @@ void Functions::moveAnotherPile(string currentPosition, string cardSize,
 
 }
 void Functions::openFromStock(StockValues stockValuesList[], card stockArray[],
-		card stockMatrix[][3],std::ostream& output) {
+		card stockMatrix[][3], std::ostream &output) {
 	StockValues oneStock = stockValuesList[0];
 
 	int tempStockValue;
@@ -240,7 +248,6 @@ void Functions::openFromStock(StockValues stockValuesList[], card stockArray[],
 				break;
 		}
 
-
 		tempStockValue = tempStockValue + 1 + countZero;
 		oneStock.currentStockIndex = tempStockValue;
 		stockValuesList[0] = oneStock;
@@ -249,7 +256,7 @@ void Functions::openFromStock(StockValues stockValuesList[], card stockArray[],
 }
 void Functions::moveWasteToPile(string targetColumn,
 		StockValues stockValuesList[], card stockMatrix[][3], card stockArray[],
-		card tableauArea[][7],std::ostream& output) {
+		card tableauArea[][7], std::ostream &output) {
 	Functions functions;
 	int targetColumnP = std::stoi(targetColumn);
 	int lastcardTargetIndex = functions.findLastCard(targetColumnP,
@@ -279,6 +286,8 @@ void Functions::moveWasteToPile(string targetColumn,
 						temp = stockMatrix[currentIndex][0].cardname;
 						stockMatrix[currentIndex][0].cardname = "null";
 						deleteFromArray(stockArray, temp);
+						createWasteWhenEmpty(stockValuesList, stockMatrix,
+								output);
 					}
 
 					else
@@ -296,6 +305,8 @@ void Functions::moveWasteToPile(string targetColumn,
 							temp = stockMatrix[currentIndex][0].cardname;
 							stockMatrix[currentIndex][0].cardname = "null";
 							deleteFromArray(stockArray, temp);
+							createWasteWhenEmpty(stockValuesList, stockMatrix,
+									output);
 
 						} else
 							output << "\nInvalid Move!" << endl;
@@ -303,35 +314,36 @@ void Functions::moveWasteToPile(string targetColumn,
 						output << "\nInvalid Move!" << endl;
 
 				}
-				int tempMax = stockValuesList[0].maxIndex;
+				//int tempMax = stockValuesList[0].maxIndex;
 
-				if (currentIndex != 0 && currentIndex != (tempMax - 1))
-					stockValuesList[0].currentStockIndex = currentIndex - 1;
-				else if (currentIndex == (tempMax - 1)) {
-					if (stockMatrix[currentIndex - 1][2].cardname == "null") {
-						if (stockMatrix[currentIndex - 1][1].cardname
-								== "null") {
-							if (stockMatrix[currentIndex - 1][0].cardname
-									== "null")
-								output << "Invalid Move!" << endl;
-							else {
-								card tempPre = stockMatrix[currentIndex - 1][0];
-								stockMatrix[currentIndex - 1][0].cardname =
-										"null";
-								stockMatrix[currentIndex][0] = tempPre;
-							}
-						} else {
-							card tempPre = stockMatrix[currentIndex - 1][1];
-							stockMatrix[currentIndex - 1][1].cardname = "null";
-							stockMatrix[currentIndex][0] = tempPre;
-						}
-					} else {
-						card tempPre = stockMatrix[currentIndex - 1][2];
-						stockMatrix[currentIndex - 1][2].cardname = "null";
-						stockMatrix[currentIndex][0] = tempPre;
-					}
+				//if (currentIndex != 0 && currentIndex != (tempMax - 1))
+				/*if (currentIndex != 0 && currentIndex != (tempMax - 1))
+				 stockValuesList[0].currentStockIndex = currentIndex - 1;
+				 else if (currentIndex == (tempMax - 1)) {
+				 if (stockMatrix[currentIndex - 1][2].cardname == "null") {
+				 if (stockMatrix[currentIndex - 1][1].cardname
+				 == "null") {
+				 if (stockMatrix[currentIndex - 1][0].cardname
+				 == "null")
+				 output << "Invalid Move!" << endl;
+				 else {
+				 card tempPre = stockMatrix[currentIndex - 1][0];
+				 stockMatrix[currentIndex - 1][0].cardname =
+				 "null";
+				 stockMatrix[currentIndex][0] = tempPre;
+				 }
+				 } else {
+				 card tempPre = stockMatrix[currentIndex - 1][1];
+				 stockMatrix[currentIndex - 1][1].cardname = "null";
+				 stockMatrix[currentIndex][0] = tempPre;
+				 }
+				 } else {
+				 card tempPre = stockMatrix[currentIndex - 1][2];
+				 stockMatrix[currentIndex - 1][2].cardname = "null";
+				 stockMatrix[currentIndex][0] = tempPre;
+				 }
 
-				}
+				 }*/
 
 			}
 		} else {
@@ -451,7 +463,7 @@ bool Functions::suitExpression(char source, char dest) {
 void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 		card stockMatrix[][3], card stockArray[], card foundationHearts[],
 		card foundationDiamonds[], card foundationClubs[],
-		card foundationSpades[],std::ostream& output) {
+		card foundationSpades[], std::ostream &output) {
 	string temp;
 	Functions functions;
 	int currentIndex = stockValuesList[0].currentStockIndex;
@@ -468,16 +480,20 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 				//stockMatrix[currentIndex][0].cardname = "null";
 				if (tempCard.suitChar == 'H') {
 					functions.addFoundation2(foundationHearts, tempCard,
-							stockArray, temp, stockMatrix, currentIndex, 0,output);
+							stockArray, temp, stockMatrix, currentIndex, 0,
+							output, stockValuesList);
 				} else if (tempCard.suitChar == 'D') {
 					functions.addFoundation2(foundationDiamonds, tempCard,
-							stockArray, temp, stockMatrix, currentIndex, 0,output);
+							stockArray, temp, stockMatrix, currentIndex, 0,
+							output, stockValuesList);
 				} else if (tempCard.suitChar == 'C') {
 					functions.addFoundation2(foundationClubs, tempCard,
-							stockArray, temp, stockMatrix, currentIndex, 0,output);
+							stockArray, temp, stockMatrix, currentIndex, 0,
+							output, stockValuesList);
 				} else if (tempCard.suitChar == 'S') {
 					functions.addFoundation2(foundationSpades, tempCard,
-							stockArray, temp, stockMatrix, currentIndex, 0,output);
+							stockArray, temp, stockMatrix, currentIndex, 0,
+							output, stockValuesList);
 				}
 				if (currentIndex > 0)
 					stockValuesList[0].currentStockIndex = currentIndex - 1;
@@ -489,16 +505,20 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 			//stockMatrix[currentIndex][1].cardname = "null";
 			if (tempCard.suitChar == 'H') {
 				functions.addFoundation2(foundationHearts, tempCard, stockArray,
-						temp, stockMatrix, currentIndex, 1,output);
+						temp, stockMatrix, currentIndex, 1, output,
+						stockValuesList);
 			} else if (tempCard.suitChar == 'D') {
 				functions.addFoundation2(foundationDiamonds, tempCard,
-						stockArray, temp, stockMatrix, currentIndex, 1,output);
+						stockArray, temp, stockMatrix, currentIndex, 1, output,
+						stockValuesList);
 			} else if (tempCard.suitChar == 'C') {
 				functions.addFoundation2(foundationClubs, tempCard, stockArray,
-						temp, stockMatrix, currentIndex, 1,output);
+						temp, stockMatrix, currentIndex, 1, output,
+						stockValuesList);
 			} else if (tempCard.suitChar == 'S') {
 				functions.addFoundation2(foundationSpades, tempCard, stockArray,
-						temp, stockMatrix, currentIndex, 1,output);
+						temp, stockMatrix, currentIndex, 1, output,
+						stockValuesList);
 			}
 
 		}
@@ -508,16 +528,20 @@ void Functions::moveWasteToFoundation(StockValues stockValuesList[],
 		//stockMatrix[currentIndex][2].cardname = "null";
 		if (tempCard.suitChar == 'H') {
 			functions.addFoundation2(foundationHearts, tempCard, stockArray,
-					temp, stockMatrix, currentIndex, 2,output);
+					temp, stockMatrix, currentIndex, 2, output,
+					stockValuesList);
 		} else if (tempCard.suitChar == 'D') {
 			functions.addFoundation2(foundationDiamonds, tempCard, stockArray,
-					temp, stockMatrix, currentIndex, 2,output);
+					temp, stockMatrix, currentIndex, 2, output,
+					stockValuesList);
 		} else if (tempCard.suitChar == 'C') {
 			functions.addFoundation2(foundationClubs, tempCard, stockArray,
-					temp, stockMatrix, currentIndex, 2,output);
+					temp, stockMatrix, currentIndex, 2, output,
+					stockValuesList);
 		} else if (tempCard.suitChar == 'S') {
 			functions.addFoundation2(foundationSpades, tempCard, stockArray,
-					temp, stockMatrix, currentIndex, 2,output);
+					temp, stockMatrix, currentIndex, 2, output,
+					stockValuesList);
 		}
 	}
 
@@ -553,3 +577,63 @@ void Functions::calculateStockMatrix(card stockArray[], card stockMatrix[][3]) {
 		}
 	}
 }
+
+void Functions::createWasteWhenEmpty(StockValues stockValuesList[],
+		card stockMatrix[][3], std::ostream &output) {
+	int currentIndex = stockValuesList[0].currentStockIndex;
+	int tempMax = stockValuesList[0].maxIndex;
+
+	//if (currentIndex != 0 && currentIndex != (tempMax - 1))
+	//stockValuesList[0].currentStockIndex = currentIndex - 1;
+	for (int searchKey = currentIndex - 1; 0 <= searchKey; searchKey--) {
+		if (stockMatrix[searchKey][0].cardname == "null")
+			continue;
+		else if (currentIndex != 0 && currentIndex < (tempMax)) {
+			if (stockMatrix[searchKey][2].cardname == "null") {
+				if (stockMatrix[searchKey][1].cardname == "null") {
+					if (stockMatrix[searchKey][0].cardname == "null")
+						output << "Invalid Move!" << endl;
+					else {
+						card tempPre = stockMatrix[searchKey][0];
+						stockMatrix[searchKey][0].cardname = "null";
+						stockMatrix[currentIndex][0] = tempPre;
+					}
+				} else {
+					card tempPre = stockMatrix[searchKey][1];
+					stockMatrix[searchKey][1].cardname = "null";
+					stockMatrix[currentIndex][0] = tempPre;
+				}
+			} else {
+				card tempPre = stockMatrix[searchKey][2];
+				stockMatrix[searchKey][2].cardname = "null";
+				stockMatrix[currentIndex][0] = tempPre;
+			}
+			break;
+
+		}
+	}
+	/*
+	if (currentIndex != 0 && currentIndex < (tempMax)) {
+		if (stockMatrix[currentIndex - 1][2].cardname == "null") {
+			if (stockMatrix[currentIndex - 1][1].cardname == "null") {
+				if (stockMatrix[currentIndex - 1][0].cardname == "null")
+					output << "Invalid Move!" << endl;
+				else {
+					card tempPre = stockMatrix[currentIndex - 1][0];
+					stockMatrix[currentIndex - 1][0].cardname = "null";
+					stockMatrix[currentIndex][0] = tempPre;
+				}
+			} else {
+				card tempPre = stockMatrix[currentIndex - 1][1];
+				stockMatrix[currentIndex - 1][1].cardname = "null";
+				stockMatrix[currentIndex][0] = tempPre;
+			}
+		} else {
+			card tempPre = stockMatrix[currentIndex - 1][2];
+			stockMatrix[currentIndex - 1][2].cardname = "null";
+			stockMatrix[currentIndex][0] = tempPre;
+		}
+
+	}*/
+}
+
